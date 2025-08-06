@@ -4,6 +4,7 @@ import { Navbar } from "./navbar";
 import { SearchFilter } from "./search-filters";
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { CustomCategory } from "./types";
 
 interface Props {
   children: React.ReactNode;
@@ -22,17 +23,18 @@ const LayoutHome = async ({ children }: Props) => {
       parent: {
         exists: false
       }
-    }
+    },
+    sort: "name"
   })
 
-  const formattedData = data.docs.map((doc) => ({
+  const formattedData: CustomCategory[] = data.docs.map((doc) => ({
     ...doc,
-    subcategories: doc.subcategories?.docs ?? [].map((doc: Category) => ({
-      ...doc as Category,
-      subcategories: undefined
-      
-    }))
-  }))
+    subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
+      ...(doc as Category), // Cast to Category since depth: 1 ensures proper typing
+      subcategories: undefined, // Prevent further nesting for simplicity
+    })),
+  }));
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
