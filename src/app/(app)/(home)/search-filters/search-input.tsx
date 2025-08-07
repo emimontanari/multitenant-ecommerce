@@ -1,32 +1,23 @@
-"use client"; // Enables client-side rendering
-
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ListFilterIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { CustomCategory } from "../types";
 import { CategoriesSidebar } from "./categories-sidebar";
 
-// SearchInputProps - Props accepted by the SearchInput component
 interface SearchInputProps {
-  disabled?: boolean; // Optional flag to disable the input field
-  data: CustomCategory[]; // Category data used for sidebar navigation
+  disabled?: boolean;
 }
 
-// SearchInput - Input field with a search icon and mobile category toggle button
-export const SearchInput = ({ disabled, data }: SearchInputProps) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar visibility
+export const SearchInput = ({ disabled}: SearchInputProps) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex items-center gap-2 w-full">
-      {/* Sidebar for category filters (mobile only) */}
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        data={data}
       />
-
-      {/* Search input with leading icon */}
       <div className="relative w-full">
         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500" />
         <Input
@@ -35,8 +26,6 @@ export const SearchInput = ({ disabled, data }: SearchInputProps) => {
           disabled={disabled}
         />
       </div>
-
-      {/* Toggle button for category sidebar (mobile only) */}
       <Button
         variant="elevated"
         className="size-12 shrink-0 flex lg:hidden"
@@ -44,8 +33,6 @@ export const SearchInput = ({ disabled, data }: SearchInputProps) => {
       >
         <ListFilterIcon />
       </Button>
-
-      {/* TODO: Add library button */}
     </div>
   );
 };
